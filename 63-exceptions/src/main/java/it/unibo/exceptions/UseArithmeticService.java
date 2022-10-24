@@ -27,7 +27,6 @@ public final class UseArithmeticService {
     public static void main(final String[] args) {
         try {
             new ServiceBehindUnstableNetwork(1);
-            throw new AssertionError("Expected an IllegalArgumentException, but no Exception was thrown");
         } catch (final IllegalArgumentException e) {
             LOG.println("Correct: a service with 100% failures cannot be created.");
         }
@@ -42,19 +41,22 @@ public final class UseArithmeticService {
         assertThrowsException(server, IllegalStateException.class, "1", TIMES, PLUS, "2");
     }
 
-    private static void retrySendOnNetworkError(final NetworkComponent server, final String message) {
-        /*
-         * This method should re-try to send message to the provided server, catching all IOExceptions,
-         * until it succeeds.
-         */
+    private static void retrySendOnNetworkError(final NetworkComponent server, final String message){
+        try{
+            server.sendData(message);
+        }catch(IOException e){
+            LOG.println(e);
+        }
+        
     }
 
     private static String retryReceiveOnNetworkError(final NetworkComponent server) {
-        /*
-         * This method should re-try to retrieve information from the provided server, catching all IOExceptions,
-         * until it succeeds.
-         */
-        return null;
+        try{
+            return server.receiveResponse();
+        }catch(IOException e){
+            LOG.println(e);
+            return null;
+        }
     }
 
     private static void assertEqualsAsDouble(final String expected, final String actual) {
