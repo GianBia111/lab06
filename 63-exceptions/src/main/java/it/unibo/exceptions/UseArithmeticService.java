@@ -42,21 +42,24 @@ public final class UseArithmeticService {
     }
 
     private static void retrySendOnNetworkError(final NetworkComponent server, final String message){
-        try{
-            server.sendData(message);
-        }catch(IOException e){
-            LOG.println(e);
+        while (true) {
+            try {
+                server.sendData(message);
+            } catch (IOException e) {
+                LOG.println(e);
+            }
         }
-        
     }
 
     private static String retryReceiveOnNetworkError(final NetworkComponent server) {
-        try{
-            return server.receiveResponse();
-        }catch(IOException e){
-            LOG.println(e);
-            return null;
+        while(true){
+            try{
+                return server.receiveResponse();
+            }catch(IOException e){
+                LOG.println(e);
+            }
         }
+        
     }
 
     private static void assertEqualsAsDouble(final String expected, final String actual) {
