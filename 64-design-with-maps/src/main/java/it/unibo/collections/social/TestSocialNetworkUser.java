@@ -5,6 +5,7 @@ package it.unibo.collections.social;
 
 import it.unibo.collections.social.api.SocialNetworkUser;
 import it.unibo.collections.social.api.User;
+import it.unibo.collections.social.impl.Bot;
 import it.unibo.collections.social.impl.SocialNetworkUserImpl;
 import it.unibo.collections.social.impl.UserImpl;
 
@@ -52,12 +53,14 @@ public final class TestSocialNetworkUser {
         final SocialNetworkUser<User> dwashington = new SocialNetworkUserImpl<>("Denzel", "Washington", "dwashington", 59);
         final SocialNetworkUser<User> mgladwell = new SocialNetworkUserImpl<>("Malcom", "Gladwell", "mgladwell", 51);
         final SocialNetworkUser<User> ntaleb = new SocialNetworkUserImpl<>("Nicholas", "Taleb", "ntaleb", 54);
+        final SocialNetworkUser<Bot> bot =new SocialNetworkUserImpl<>(WRITERS, WRITERS, WRITERS);
         final User asmith = new UserImpl("Adam", "Smith", "asmith");
         /*
          * Make people follow each other
          */
         mgladwell.addFollowedUser("acquaintances", ntaleb);
         dwashington.addFollowedUser("myths", asmith);
+
         dwashington.addFollowedUser(WRITERS, ntaleb);
         dwashington.addFollowedUser("colleagues", kbacon);
         dwashington.addFollowedUser(WRITERS, mgladwell);
